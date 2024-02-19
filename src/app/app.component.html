@@ -1,0 +1,81 @@
+<div class="search">
+  <form #form="ngForm" (submit)="onSubmit()">
+    <input type="text" placeholder="Search city" name="city" [(ngModel)]="cityName">
+  </form>
+</div>
+
+<div class="container" *ngIf="weatherData">
+  <div class="todays-weather-label">
+    <div class="data-label">TODAYS WEATHER</div>
+    <div class="data-label">{{weatherData.list[0].dt_txt | date: 'dd/MM/yyyy'}}</div>
+  </div>
+  <div class="todays-weather-container">
+    <div class="data-label">{{weatherData.list[0].weather[0].main}}: {{weatherData.list[0].weather[0].description}} </div>
+      <div class="data-label">Min temperature: {{weatherData.list[0].main.temp_min | number:'1.0-0'}}°C  </div>
+        <div class="data-label">Max temperature: {{weatherData.list[0].main.temp_max | number:'1.0-0'}}°C</div>
+  </div>
+</div>
+
+<div class="container" *ngIf="weatherData">
+  <div class="data-label">CURRENT WEATHER</div>
+  <div class="current-weather">
+    <img src="http://openweathermap.org/img/w/{{weatherData.list[0].weather[0].icon}}.png">
+      <div class="weather-data">
+        <div class="location">{{weatherData.city.name}}</div>
+        <div class="temperature">{{weatherData.list[0].main.temp | number:'1.0-0'}}°C</div>
+      </div>
+      <div class="more-weather-data-container">
+        <div class="info-block">
+          <div class="info-block-label">
+            <span>Real feel:</span>
+          </div>
+          <div class="info-block-value">
+            {{weatherData.list[0].main.feels_like | number:'1.0-0'}}°C
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">
+            <span>Cloudiness:</span>
+          </div>
+          <div class="info-block-value">
+            {{weatherData.list[0].clouds.all}}%
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">
+            <span>humidity:</span>
+          </div>
+          <div class="info-block-value">
+            {{weatherData.list[0].main.humidity}}%
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">
+            <span>Wind:</span>
+          </div>
+          <div class="info-block-value">
+            {{weatherData.list[0].wind.speed }} km/h
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="weatherData">
+  <div class="data-label">WEATHER FORECAST</div>
+  <div class="weather-forecast-container">
+    <div class="weather-forecast-item" *ngFor="let i of [1,2,3,4,5,6,7]">
+      <div class="item-weather">
+        <span>{{weatherData.list[i].weather[0].main}}</span>
+      </div>
+      <div class="item-temp">
+        <span>{{weatherData.list[i].main.temp | number:'1.0-0'}}°C</span>
+      </div>
+      <div class="item-hour">
+        {{weatherData.list[i].dt_txt | date: 'h:mm a'}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer"></div>
+<router-outlet></router-outlet>
